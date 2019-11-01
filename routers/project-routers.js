@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => {
                 res.status(404).json({ message: "Project with that specific ID doesnot exist in the dataBase" })
             }
         })
-        .catch(() => {
+        .catch((error) => {
             res.status(500).json({ message: "An Error occured while getting data " + error.message})
         })
 })
@@ -46,8 +46,24 @@ router.post('/', checkRequiredField, (req, res) => {
         .then(project => {
             res.status(200).json(project)
         })
-        .catch(() => {
+        .catch((error) => {
             res.status(500).json({ message: "An Error occured while getting data " + error.message })
+        })
+})
+
+router.delete('/:id', (req, res) => {
+    const id = req.params.id
+   
+    projectDataBase.remove(id)
+        .then(project => {
+            if (project) {
+                res.json(project)
+            } else {
+                res.status(404).json({ error: "Project with that specific ID doesnot exist in the dataBase" })
+            }
+        })
+        .catch(() => {
+            res.status(500).json({ message: "An Error occured while getting data " })
         })
 })
 

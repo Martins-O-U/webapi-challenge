@@ -22,7 +22,7 @@ router.get('/:id', (req, res) => {
             if (action) {
                 res.json(action)
             } else {
-                res.status(404).json({ message: "Project with that specific ID doesnot exist in the dataBase"})
+                res.status(404).json({ message: "Action with that specific ID doesnot exist in the dataBase"})
             }
         })
         .catch((error) => {
@@ -44,6 +44,22 @@ router.post('/', (req, res) => {
                 res.status(500).json({ message: "An Error occured while getting data " + error.message })
             })
     }
+})
+
+router.delete('/:id', (req, res) => {
+    const id = req.params.id
+   
+    actionDataBase.remove(id)
+        .then(action => {
+            if (action) {
+                res.json(action)
+            } else {
+                res.status(404).json({ message: "Action with that specific ID doesnot exist in the dataBase"})
+            }
+        })
+        .catch(() => {
+            res.status(500).json({ message: "An Error occured while getting data " })
+        })
 })
 
 
