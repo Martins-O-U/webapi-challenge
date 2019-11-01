@@ -8,7 +8,7 @@ function checkRequiredField(req, res, next) {
     if (req.body.name && req.body.description) {
         next();
     } else {
-        res.status(400).json({ error: "please provide name and description of project"})
+        res.status(400).json({ error: "please provide all the needed values (name and description)" })
     }
 }
 
@@ -67,5 +67,19 @@ router.delete('/:id', (req, res) => {
         })
 })
 
+router.put("/:id", checkRequiredField, (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+    projectDataBase.update( id, changes )
+        .then(data => {
+            if (data) {
+                res.status(200).json(data)
+            } else {
+                res.status(404).json({ message: "Project with that specific ID doesnot exist in the dataBase" })
+            }              
+        })
+        .catch(error => res.json({ message: "An Error occured while getting data "}))
+})
 
 module.exports = router; 

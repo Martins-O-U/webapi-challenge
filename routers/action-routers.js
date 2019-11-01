@@ -3,6 +3,14 @@ const actionDataBase = require('../data/helpers/actionModel');
 
 const router = express.Router();
 
+function requiredFieldChecker(req, res, next) {
+    if (req.body.project_id && req.body.description && req.body.notes) {
+        next();
+    } else {
+        res.status(400).json({ error : "please provide all the needed values (project_id, description, and notes)"})
+    }
+}
+
 router.get('/', (req, res) => {
     
     actionDataBase.get()
@@ -30,12 +38,9 @@ router.get('/:id', (req, res) => {
         })
 })
 
-router.post('/', (req, res) => {
+router.post('/', requiredFieldChecker, (req, res) => {
     const action = req.body
-    
-    if (!action.project_id || !action.description || !action.notes || action.description.length > 128) {
-        res.status(400).json({ error : "please provide all the needed values (project_id, description, and notes)"})
-    } else {
+ 
         actionDataBase.insert(action)
             .then(post => {
                 res.status(200).json(post)
@@ -43,7 +48,6 @@ router.post('/', (req, res) => {
             .catch((error) => {
                 res.status(500).json({ message: "An Error occured while getting data " + error.message })
             })
-    }
 })
 
 router.delete('/:id', (req, res) => {
@@ -60,6 +64,23 @@ router.delete('/:id', (req, res) => {
         .catch(() => {
             res.status(500).json({ message: "An Error occured while getting data " })
         })
+})
+
+router.put('/:id', requiredFieldChecker, (req, res) => {
+    const id = req.params.id
+    const update = req.body
+
+        actionDataBase.update(id, update)
+            .then(changes => {
+                if (changes) {
+                    res.status(200).json(changes)
+                } else {
+                    res.status(404).json({ message: "Action with that specific ID doesnot exist in the dataBase"})
+                }
+            })
+            .catch(() => {
+                res.status(500).json({ message: "An Error occured while saving data" })
+            })
 })
 
 
