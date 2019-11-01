@@ -13,14 +13,30 @@ function checkRequiredField(req, res, next) {
 }
 
 router.get('/', (req, res) => {
-    projectDataBase
-    .get()
-    .then(project => {
-        res.status(200).json(project)
-    })
-    .catch((error) => {
-        res.status(500).json({ message: "An Error occured while getting data " + error.message})
-    })
+    
+    projectDataBase.get()
+        .then(project => {
+            res.status(200).json(project)
+        })
+        .catch((error) => {
+            res.status(500).json({ message: "An Error occured while getting data " + error.message})
+        })
+})
+
+router.get('/:id', (req, res) => {
+    const id = req.params.id
+    
+    projectDataBase.get(id)
+        .then(project => {
+            if (project) {
+                res.json(project)
+            } else {
+                res.status(404).json({ message: "Project with that specific ID doesnot exist in the dataBase" })
+            }
+        })
+        .catch(() => {
+            res.status(500).json({ message: "An Error occured while getting data " + error.message})
+        })
 })
 
 
