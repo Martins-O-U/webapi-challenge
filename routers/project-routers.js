@@ -82,4 +82,18 @@ router.put("/:id", checkRequiredField, (req, res) => {
         .catch(error => res.json({ message: "An Error occured while getting data "}))
 })
 
+router.get("/:id/actions", (req, res) => {
+    const { id } = req.params;
+    projectDataBase.getProjectActions(id)
+        .then(data => {
+            if (data.length > 0) {
+                res.json(data)
+            } else {
+                res.status(404).json({ message: "Project with that specific ID doesnot exist in the dataBase"})
+            }
+
+        })
+        .catch(error => {res.json({ message: "An Error occured while getting data."})})
+})
+
 module.exports = router; 
