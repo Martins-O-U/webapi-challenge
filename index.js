@@ -1,3 +1,26 @@
+require('dotenv').config()
+
+const express = require('express')
+const actionRouter = require('./routers/action-routers');
+const projectRouter = require('./routers/project-routers');
+
+const server = express()
+const port = process.env.PORT;
+
+
+server.use(express.json())
+server.use('/api/actions', actionRouter);
+server.use('/api/projects', projectRouter);
+
+
+server.get('*', (req, res) => {
+    res.json('This is the default setting')
+})
+
+server.listen(port, () => console.log("server listening on port " + port)) 
+
+
+
 /*
 play this: https://www.youtube.com/watch?v=d-diB65scQU
 
