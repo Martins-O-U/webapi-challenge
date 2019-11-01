@@ -39,5 +39,17 @@ router.get('/:id', (req, res) => {
         })
 })
 
+router.post('/', checkRequiredField, (req, res) => {
+    const project = req.body
+    
+    projectDataBase.insert(project)
+        .then(project => {
+            res.status(200).json(project)
+        })
+        .catch(() => {
+            res.status(500).json({ message: "An Error occured while getting data " + error.message })
+        })
+})
+
 
 module.exports = router; 
