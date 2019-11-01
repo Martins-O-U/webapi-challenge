@@ -25,8 +25,12 @@ function Project() {
   const handleSubmit = (e, project) => {
     e.preventDefault();
     axios.post("http://localhost:3500/api/projects", project)
-      .then(result => getProjects())
-      .catch(err => console.log(err))
+      .then(result => {
+        getProjects()
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
