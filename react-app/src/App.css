@@ -1,0 +1,42 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+form{
+  margin: 10px;
+  padding-bottom: 10px;
+  border: 2px dashed wheat;
+}
+
+input{
+  width: 35%;
+  height: 20px;
+}
+
+button{
+  padding: 3.5px;
+}
+.project-div{
+  background: #09d3ac;
+  color: black;
+}
+
